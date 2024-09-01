@@ -6,37 +6,60 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 05:19:12 by hawayda           #+#    #+#             */
-/*   Updated: 2024/08/31 05:43:30 by hawayda          ###   ########.fr       */
+/*   Updated: 2024/09/01 05:35:03 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/headers/pipex.h"
 
-void	error_exit(const char *msg)
+void	handle_child_process(int infile, int outfile, int *pipe_fd,
+		int is_first_child)
 {
-	perror(msg);
-	exit(EXIT_FAILURE);
+	if (is_first_child)
+	{
+		dup2(infile, STDIN_FILENO);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+	}
+	else
+	{
+		dup2(pipe_fd[0], STDIN_FILENO);
+		dup2(outfile, STDOUT_FILENO);
+	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
 }
 
-void	execute_command(char *cmd, char **envp)
+void	setup_pipes_and_fork(int infile, int outfile, char **argv, char **envp)
 {
-	char	**args;
+	int		pipe_fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
 
-	args = ft_split(cmd, ' ');
-	if (execve(args[0], args, envp) == -1)
+	if (pipe(pipe_fd) == -1)
+		error_exit("pipe");
+	pid1 = fork();
+	if (pid1 < 0)
+		error_exit("fork");
+	if (pid1 == 0)
 	{
-		perror("execve");
-		exit(EXIT_FAILURE);
+		handle_child_process(infile, outfile, pipe_fd, 1);
+		execute_command(argv[2], envp);
 	}
+	pid2 = fork();
+	if (pid2 < 0)
+		error_exit("fork");
+	if (pid2 == 0)
+	{
+		handle_child_process(infile, outfile, pipe_fd, 0);
+		execute_command(argv[3], envp);
+	}
+	close_everything(pipe_fd, pid1, pid2);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		pipe_fd[2];
-	int		infile;
-	int		outfile;
-	pid_t	pid1;
-	pid_t	pid2;
+	int	infile;
+	int	outfile;
 
 	if (argc != 5)
 	{
@@ -49,35 +72,8 @@ int	main(int argc, char **argv, char **envp)
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
 		error_exit("open outfile");
-	if (pipe(pipe_fd) == -1)
-		error_exit("pipe");
-	pid1 = fork();
-	if (pid1 < 0)
-		error_exit("fork");
-	if (pid1 == 0)
-	{
-		dup2(infile, STDIN_FILENO);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		execute_command(argv[2], envp);
-	}
-	pid2 = fork();
-	if (pid2 < 0)
-		error_exit("fork");
-	if (pid2 == 0)
-	{
-		dup2(pipe_fd[0], STDIN_FILENO);
-		dup2(outfile, STDOUT_FILENO);
-		close(pipe_fd[1]);
-		close(pipe_fd[0]);
-		execute_command(argv[3], envp);
-	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+	setup_pipes_and_fork(infile, outfile, argv, envp);
 	close(infile);
 	close(outfile);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
 	return (EXIT_SUCCESS);
 }

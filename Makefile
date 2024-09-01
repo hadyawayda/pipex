@@ -9,16 +9,7 @@ LIBFT =			$(LIBFT_DIR)/libft.a
 PRINTF_DIR =	src/utils/ft_printf
 PRINTF =		$(PRINTF_DIR)/libftprintf.a
 
-# SRCS =			src/checkers/map_checker.c \
-# 				src/checkers/map_parser.c \
-# 				src/checkers/path_finder.c \
-# 				src/controls/enemy.c \
-# 				src/controls/keyboard.c \
-# 				src/controls/movement.c \
-# 				src/renderers/animators.c \
-# 				src/renderers/map.c \
-# 				src/renderers/players.c \
-# 				src/helpers/window.c \
+SRCS =			src/helpers/handlers.c \
 
 SRC =			src/main.c \
 
