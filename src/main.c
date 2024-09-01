@@ -29,7 +29,7 @@ void	handle_child_process(int infile, int outfile, int *pipe_fd,
 	close(pipe_fd[1]);
 }
 
-void	setup_pipes_and_fork(int infile, int outfile, char **argv, char **envp)
+void	setup_pipes_and_forks(int infile, int outfile, char **argv, char **envp)
 {
 	int		pipe_fd[2];
 	pid_t	pid1;
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
 		error_exit("open outfile");
-	setup_pipes_and_fork(infile, outfile, argv, envp);
+	setup_pipes_and_forks(infile, outfile, argv, envp);
 	close(infile);
 	close(outfile);
 	return (EXIT_SUCCESS);

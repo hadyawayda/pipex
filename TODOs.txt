@@ -1,0 +1,5 @@
+Remove error_exit
+Complete the bonus
+Fix command not found in execve
+Check the allowed external functions what they do and how they can be leveraged.
+Fix leaks on errors (number of commands is wrong, command not found)
