@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 	{
-		fprintf(stderr, "Usage: %s file1 cmd1 cmd2 file2\n", argv[0]);
+		fprintf(stderr, "Usage: %s infile cmd1 cmd2 outfile\n", argv[0]);
 		return (EXIT_FAILURE);
 	}
 	infile = open(argv[1], O_RDONLY);
