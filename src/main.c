@@ -6,7 +6,7 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 05:19:12 by hawayda           #+#    #+#             */
-/*   Updated: 2024/09/01 05:35:03 by hawayda          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:13:56 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	setup_pipes_and_forks(int infile, int outfile, char **argv, char **envp)
 	pid_t	pid2;
 
 	if (pipe(pipe_fd) == -1)
-		error_exit("pipe");
+		perror("pipe");
 	pid1 = fork();
 	if (pid1 < 0)
-		error_exit("fork");
+		perror("fork");
 	if (pid1 == 0)
 	{
 		handle_child_process(infile, outfile, pipe_fd, 1);
@@ -47,7 +47,7 @@ void	setup_pipes_and_forks(int infile, int outfile, char **argv, char **envp)
 	}
 	pid2 = fork();
 	if (pid2 < 0)
-		error_exit("fork");
+		perror("fork");
 	if (pid2 == 0)
 	{
 		handle_child_process(infile, outfile, pipe_fd, 0);
@@ -68,12 +68,12 @@ int	main(int argc, char **argv, char **envp)
 	}
 	infile = open(argv[1], O_RDONLY);
 	if (infile < 0)
-		error_exit("open infile");
+		perror("open infile");
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
-		error_exit("open outfile");
+		perror("open outfile");
 	if (argv[2][0] == '\0' || argv[3][0] == '\0')
-    	error_exit("One or both commands are missing");
+		perror("One or both commands are missing");
 	setup_pipes_and_forks(infile, outfile, argv, envp);
 	close(infile);
 	close(outfile);
