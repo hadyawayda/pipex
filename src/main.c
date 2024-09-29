@@ -72,6 +72,8 @@ int	main(int argc, char **argv, char **envp)
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile < 0)
 		error_exit("open outfile");
+	if (argv[2][0] == '\0' || argv[3][0] == '\0')
+    	error_exit("One or both commands are missing");
 	setup_pipes_and_forks(infile, outfile, argv, envp);
 	close(infile);
 	close(outfile);
