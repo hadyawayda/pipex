@@ -6,27 +6,27 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 05:35:18 by hawayda           #+#    #+#             */
-/*   Updated: 2024/09/29 16:15:20 by hawayda          ###   ########.fr       */
+/*   Updated: 2024/09/29 18:37:25 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../utils/headers/pipex.h"
 
-void	execute_command(char *cmd, char **envp)
-{
-	char	**args;
-	int		i;
+// void	execute_command(char *cmd, char **envp)
+// {
+// 	char	**args;
+// 	int		i;
 
-	args = ft_split(cmd, ' ');
-	if (execve(args[0], args, envp) == -1)
-	{
-		i = 0;
-		while (args[i])
-			free(args[i++]);
-		free(args);
-		perror("execve");
-	}
-}
+// 	args = ft_split(cmd, ' ');
+// 	if (execve(args[0], args, envp) == -1)
+// 	{
+// 		i = 0;
+// 		while (args[i])
+// 			free(args[i++]);
+// 		free(args);
+// 		perror("execve");
+// 	}
+// }
 
 void	close_everything(int pipe_fd[2], pid_t pid1, pid_t pid2)
 {
@@ -64,7 +64,7 @@ char	*find_command(char *cmd, char **envp)
 		full_path = malloc(strlen(paths[i]) + strlen(cmd) + 2);
 		// Allocate memory for the full path
 		if (!full_path)
-			error_exit("malloc");
+			exit_with_error("malloc");
 		strcpy(full_path, paths[i]);
 		strcat(full_path, "/");
 		strcat(full_path, cmd);
@@ -94,7 +94,7 @@ void	execute_command(char *cmd, char **envp)
 
 	args = ft_split(cmd, ' ');
 	if (!args)
-		error_exit("ft_split");
+		exit_with_error("ft_split");
 	// Find the command path using PATH from envp
 	command_path = find_command(args[0], envp);
 	if (!command_path)

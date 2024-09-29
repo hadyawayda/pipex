@@ -2,7 +2,7 @@ make re
 make re
 
 # Handle case when there is a wrong number of arguments
-./pipex infile "/bin/grep a" "/bin/wc -l" outfile
+./pipex infile "grep a" "wc -l" outfile
 
 # # Handle case when there is an empty command
 # ./pipex infile "grep a" "" outfile
@@ -27,7 +27,5 @@ make re
 
 # # Handle case when outfile is not found (create it)
 # < infile grep a | wc -l > outfile
-
-./pipex infile "/bin/grep a" "/bin/wc -l" outfile
 
 make fclean

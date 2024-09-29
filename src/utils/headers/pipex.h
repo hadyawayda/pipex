@@ -6,7 +6,7 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 19:35:39 by hawayda           #+#    #+#             */
-/*   Updated: 2024/09/01 05:37:14 by hawayda          ###   ########.fr       */
+/*   Updated: 2024/09/29 18:07:18 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-void	error_exit(const char *msg);
+int		exit_with_error(char *msg);
 void	execute_command(char *cmd, char **envp);
 void	close_everything(int pipe_fd[2], pid_t pid1, pid_t pid2);
 
