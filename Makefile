@@ -10,6 +10,8 @@ PRINTF_DIR =	src/utils/ft_printf
 PRINTF =		$(PRINTF_DIR)/libftprintf.a
 
 SRCS =			src/helpers/handlers.c \
+				src/commands/execute.c \
+				src/commands/find.c \
 
 SRC =			src/main.c \
 

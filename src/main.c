@@ -12,18 +12,6 @@
 
 #include "utils/headers/pipex.h"
 
-void	close_files(int infile, int outfile)
-{
-	close(infile);
-	close(outfile);
-}
-
-int	exit_with_error(char *msg)
-{
-	perror(msg);
-	return (1);
-}
-
 void	handle_child_process(int infile, int outfile, int *pipe_fd,
 		int is_first_child)
 {

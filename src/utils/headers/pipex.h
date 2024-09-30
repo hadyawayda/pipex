@@ -23,7 +23,11 @@
 # include <unistd.h>
 
 int		exit_with_error(char *msg);
-void	execute_command(char *cmd, char **envp);
+
 void	close_everything(int pipe_fd[2], pid_t pid1, pid_t pid2);
+void	close_files(int infile, int outfile);
+void	execute_command(char *cmd, char **envp);
+
+char	*find_command(char *cmd, char **envp);
 
 #endif
