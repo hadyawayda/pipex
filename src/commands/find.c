@@ -28,7 +28,7 @@ char	*find_command(char *cmd, char **envp)
 		full_path = malloc(strlen(paths[i]) + strlen(cmd) + 2);
 		// Allocate memory for the full path
 		if (!full_path)
-			exit_with_error("malloc");
+			exit_with_error("malloc", 1);
 		strcpy(full_path, paths[i]);
 		strcat(full_path, "/");
 		strcat(full_path, cmd);
