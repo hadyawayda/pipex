@@ -1,6 +1,7 @@
 #include "../utils/headers/pipex.h"
 
 // relay exit status to main using a return value
+// fix double free when command is not found
 void	execute_command(char *cmd, char **envp)
 {
 	char	**args;
@@ -29,8 +30,8 @@ void	execute_command(char *cmd, char **envp)
 			fprintf(stderr, "Command not found: %s\n", args[0]);
 			for (int i = 0; args[i]; i++)
 				free(args[i]);
-			free(args);
-			free(command_path);
+			// free(args);
+			// free(command_path);
 			exit_with_error("strdup", 127);
 		}
 	}
