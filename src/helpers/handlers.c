@@ -13,10 +13,10 @@
 #include "../utils/headers/pipex.h"
 
 
-int	exit_with_error(char *msg)
+int	exit_with_error(char *msg, int code)
 {
 	perror(msg);
-	return (1);
+	return (code);
 }
 
 void	close_everything(int pipe_fd[2], pid_t pid1, pid_t pid2)

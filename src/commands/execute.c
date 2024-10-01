@@ -23,7 +23,7 @@ void	execute_command(char *cmd, char **envp)
 
 	args = ft_split(cmd, ' ');
 	if (!args)
-		exit_with_error("ft_split");
+		exit_with_error("ft_split", 1);
 	// Find the command path using PATH from envp
 	command_path = find_command(args[0], envp);
 	if (!command_path)
