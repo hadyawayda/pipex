@@ -22,11 +22,10 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-int		exit_with_error(char *msg, int code);
-
-void	close_everything(int pipe_fd[2], pid_t pid1, pid_t pid2);
 void	close_files(int infile, int outfile);
+void	exit_with_error(char *msg, int code);
 void	execute_command(char *cmd, char **envp);
+void	close_everything(int pipe_fd[2], pid_t pid1, pid_t pid2);
 
 char	*find_command(char *cmd, char **envp);
 

@@ -27,21 +27,19 @@ void	execute_command(char *cmd, char **envp)
 		command_path = find_command(args[0], envp);
 		if (!command_path)
 		{
-			fprintf(stderr, "Command not found: %s\n", args[0]);
+			fprintf(stderr, "%s: command not found\n", args[0]);
 			for (int i = 0; args[i]; i++)
 				free(args[i]);
-			// free(args);
-			// free(command_path);
-			exit_with_error("strdup", 127);
+			free(args);
+			exit(127);
 		}
 	}
 	if (execve(command_path, args, envp) == -1)
 	{
-		perror("execve");
 		free(command_path);
 		for (int i = 0; args[i]; i++)
 			free(args[i]);
 		free(args);
-		exit(EXIT_FAILURE);
+		exit_with_error("execve", 1);
 	}
 }
