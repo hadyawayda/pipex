@@ -27,4 +27,4 @@ make re
 # # Handle case when outfile is not found (create it)
 # < infile grep a | wc -l > outfile
 
-make fclean
+# make fclean

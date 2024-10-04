@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+void	free_array(char **array);
 void	close_files(int infile, int outfile);
 void	exit_with_error(char *msg, int code);
 void	execute_command(char *cmd, char **envp);
