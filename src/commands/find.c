@@ -52,7 +52,6 @@ char	*find_command(char *cmd, char **envp)
 		if (access(full_path, X_OK) == 0)
 		{
 			free_array(paths);
-			free(full_path);
 			return (full_path);
 		}
 		free(full_path);
