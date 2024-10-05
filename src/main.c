@@ -15,7 +15,7 @@
 void	handle_child_process(int infile, int outfile, int *pipe_fd,
 		int is_first_child)
 {
-	if (is_first_child)
+	if (is_first_child == 1)
 	{
 		dup2(infile, STDIN_FILENO);
 		dup2(pipe_fd[1], STDOUT_FILENO);
