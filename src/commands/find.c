@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/06 19:37:33 by hawayda           #+#    #+#             */
+/*   Updated: 2024/10/06 19:37:34 by hawayda          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../utils/headers/pipex.h"
 
 void	free_array(char **array)
@@ -10,17 +22,18 @@ void	free_array(char **array)
 	free(array);
 }
 
-char *get_path_env(char **envp)
+char	*get_path_env(char **envp)
 {
-    int i = 0;
+	int	i;
 
-    while (envp[i])
-    {
-        if (strncmp(envp[i], "PATH=", 5) == 0)
-            return (envp[i] + 5);
-        i++;
-    }
-    return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		if (strncmp(envp[i], "PATH=", 5) == 0)
+			return (envp[i] + 5);
+		i++;
+	}
+	return (NULL);
 }
 
 char	*get_full_path(char **paths, char *cmd, int i, char **full_path)

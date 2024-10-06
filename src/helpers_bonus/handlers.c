@@ -6,12 +6,11 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 05:35:18 by hawayda           #+#    #+#             */
-/*   Updated: 2024/09/29 18:37:25 by hawayda          ###   ########.fr       */
+/*   Updated: 2024/10/06 19:37:23 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../utils/headers/pipex.h"
-
 
 void	exit_with_error(char *msg, int code)
 {
