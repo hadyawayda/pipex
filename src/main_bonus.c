@@ -12,43 +12,6 @@
 
 #include "utils/headers/pipex.h"
 
-void handle_first_command(int infile, int *pipe_fd, char *cmd, char **envp)
-{
-    if (dup2(infile, STDIN_FILENO) == -1)
-        exit_with_error("dup2", 1);
-    if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-        exit_with_error("dup2", 1);
-    close(pipe_fd[0]);
-    close(pipe_fd[1]);
-    execute_command(cmd, envp);
-}
-
-void handle_middle_command(int *pipe_fd_in, int *pipe_fd_out, char *cmd, char **envp)
-{
-    if (dup2(pipe_fd_in[0], STDIN_FILENO) == -1)
-        exit_with_error("dup2", 1);
-
-    if (dup2(pipe_fd_out[1], STDOUT_FILENO) == -1)
-        exit_with_error("dup2", 1);
-    close(pipe_fd_in[0]);
-    close(pipe_fd_in[1]);
-    close(pipe_fd_out[0]);
-    close(pipe_fd_out[1]);
-    execute_command(cmd, envp);
-}
-
-void handle_last_command(int *pipe_fd, int outfile, char *cmd, char **envp)
-{
-    if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-        exit_with_error("dup2", 1);
-
-    if (dup2(outfile, STDOUT_FILENO) == -1)
-        exit_with_error("dup2", 1);
-    close(pipe_fd[0]);
-    close(pipe_fd[1]);
-    execute_command(cmd, envp);
-}
-
 void do_pipe(char *cmd, char **envp)
 {
     int pipe_fd[2];
