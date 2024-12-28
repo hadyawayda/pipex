@@ -1,0 +1,15 @@
+total 52
+drwxr-xr-x 2 hawayda 2024_42campus     6 Oct  6 17:36 42-Pipex
+-rw-r--r-- 1 hawayda 2024_42campus     0 Dec 28 01:58 debug_pipe1.log
+-rw-r--r-- 1 hawayda 2024_42campus   124 Oct  6 17:36 infile
+-rw-r--r-- 1 hawayda 2024_42campus    74 Oct  6 17:36 input.txt
+-rw-r--r-- 1 hawayda 2024_42campus     3 Dec 28 01:34 logfile
+-rw-r--r-- 1 hawayda 2024_42campus  1313 Oct  6 18:02 Makefile
+-rw-r--r-- 1 hawayda 2024_42campus     0 Dec 28 01:58 outfile
+-rwxr-xr-x 1 hawayda 2024_42campus 28600 Dec 28 01:58 pipex
+drwxr-xr-x 2 hawayda 2024_42campus     6 Oct  6 17:36 pipex-gabcollet
+drwxr-xr-x 7 hawayda 2024_42campus   176 Dec 26 20:22 pipex-tester
+drwxr-xr-x 2 hawayda 2024_42campus     6 Oct  6 17:36 pipex_tester_42
+drwxr-xr-x 7 hawayda 2024_42campus   141 Dec 28 01:58 src
+-rwxr-xr-x 1 hawayda 2024_42campus   759 Oct  6 17:36 test.sh
+-rw-r--r-- 1 hawayda 2024_42campus   245 Sep 29 15:38 TODOs.txt

@@ -6,68 +6,78 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 05:19:12 by hawayda           #+#    #+#             */
-/*   Updated: 2024/10/06 19:31:10 by hawayda          ###   ########.fr       */
+/*   Updated: 2024/12/28 04:55:02 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/headers/pipex.h"
 
-void	handle_child_process(int infile, int outfile, int *pipe_fd,
-		int is_first_child)
+void	do_pipe1(char *cmd, char **envp)
 {
-	if (is_first_child == 1)
+	int		pipe_fd[2];
+	pid_t	pid;
+	int		log_fd;
+	char	buffer[1024];
+	ssize_t	bytes_read;
+
+	if (pipe(pipe_fd) == -1)
+		exit_with_error("pipe", 1);
+	pid = fork();
+	if (pid == -1)
+		exit_with_error("fork", 1);
+	if (pid == 0)
 	{
-		dup2(infile, STDIN_FILENO);
 		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+		execute_command(cmd, envp);
 	}
 	else
 	{
 		dup2(pipe_fd[0], STDIN_FILENO);
-		dup2(outfile, STDOUT_FILENO);
+		close(pipe_fd[0]);
 	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
 }
 
-int	setup_pipes_and_forks(int infile, int outfile, char **argv, char **envp)
+void	do_pipe2(char *cmd, char **envp, int outfile)
 {
 	int		pipe_fd[2];
-	pid_t	pid1;
-	pid_t	pid2;
-	int		status;
-	int		exit_code;
+	pid_t	pid;
 
 	if (pipe(pipe_fd) == -1)
 		exit_with_error("pipe", 1);
-	pid1 = fork();
-	if (pid1 < 0)
+	pid = fork();
+	if (pid == -1)
 		exit_with_error("fork", 1);
-	if (pid1 == 0)
+	if (pid == 0)
 	{
-		handle_child_process(infile, outfile, pipe_fd, 1);
-		execute_command(argv[2], envp);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[1]);
+		dup2(outfile, STDOUT_FILENO);
+		close(outfile);
+		execute_command(cmd, envp);
 	}
-	pid2 = fork();
-	if (pid2 < 0)
-		exit_with_error("fork", 1);
-	if (pid2 == 0)
+	else
 	{
-		handle_child_process(infile, outfile, pipe_fd, 0);
-		execute_command(argv[3], envp);
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
 	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	close_files(infile, outfile);
-	waitpid(pid1, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		exit_code = 0;
-	waitpid(pid2, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		exit_code = WEXITSTATUS(status);
+}
+
+int	handle_files(char **argv, char **envp, int outfile)
+{
+	int	status;
+	int	exit_code;
+
+	do_pipe1(argv[2], envp);
+	do_pipe2(argv[3], envp, outfile);
+	// if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	// 	exit_code = 0;
+	// if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	// 	exit_code = WEXITSTATUS(status);
 	return (exit_code);
 }
 
-// relay file name in infile or outfile error
 int	main(int argc, char **argv, char **envp)
 {
 	int	infile;
@@ -90,6 +100,8 @@ int	main(int argc, char **argv, char **envp)
 		exit_with_error("-bash: outfile", 1);
 	if (argv[2][0] == '\0' || argv[3][0] == '\0')
 		exit_with_error("One or both commands are missing", 1);
-	exit_code = setup_pipes_and_forks(infile, outfile, argv, envp);
+	dup2(infile, STDIN_FILENO);
+	exit_code = handle_files(argv, envp, outfile);
+	// close_files(infile, outfile);
 	return (exit_code);
 }

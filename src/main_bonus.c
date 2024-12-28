@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/31 05:19:12 by hawayda           #+#    #+#             */
-/*   Updated: 2024/10/06 19:31:07 by hawayda          ###   ########.fr       */
+/*   Created: 2024/12/26 19:49:15 by hawayda           #+#    #+#             */
+/*   Updated: 2024/12/26 23:25:25 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	pipex(int argc, char **argv, char **envp)
 	execute_command(argv[argc - 2], envp);
 }
 
-// relay file name in infile or outfile error
 int	main(int argc, char **argv, char **envp)
 {
 	pipex(argc, argv, envp);
