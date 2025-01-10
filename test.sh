@@ -1,10 +1,10 @@
 make re
 
 # Handle case when there is a wrong number of arguments
-./pipex infile "grep a" "wc -l" outfile
+# ./pipex infile "grep a" "wc -l" outfile
 
 # # Handle case when there is an empty command
-# ./pipex infile "grep a" "" outfile
+./pipex infile "grep a" "" outfile
 
 # # Handle case when execve fails to find the command
 # ./pipex infile "grep a" "wc -l" outfile

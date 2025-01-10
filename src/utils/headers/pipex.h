@@ -6,7 +6,7 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 19:35:39 by hawayda           #+#    #+#             */
-/*   Updated: 2024/12/26 20:24:34 by hawayda          ###   ########.fr       */
+/*   Updated: 2025/01/10 03:43:03 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	free_array(char **array);
 void	close_files(int infile, int outfile);
 void	exit_with_error(char *msg, int code);
 void	execute_command(char *cmd, char **envp);
-void	close_everything(int pipe_fd[2], pid_t pid1, pid_t pid2);
 
 char	*find_command(char *cmd, char **envp);
 
