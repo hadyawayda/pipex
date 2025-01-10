@@ -6,7 +6,7 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 19:49:15 by hawayda           #+#    #+#             */
-/*   Updated: 2024/12/26 23:25:25 by hawayda          ###   ########.fr       */
+/*   Updated: 2025/01/10 03:44:52 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	pipex(int argc, char **argv, char **envp)
 	}
 	else
 		handle_files(argv, argc, &infile, &outfile);
-	ft_printf("I'm still running!!! :)\n");
 	while (i < argc - 2)
 		do_pipe(argv[i++], envp);
 	dup2(outfile, STDOUT_FILENO);
