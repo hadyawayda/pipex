@@ -6,7 +6,7 @@
 /*   By: hawayda <hawayda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 19:49:15 by hawayda           #+#    #+#             */
-/*   Updated: 2025/01/10 03:44:52 by hawayda          ###   ########.fr       */
+/*   Updated: 2025/01/11 02:57:57 by hawayda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	handle_here_doc(char *limiter)
 		line[nread - 1] = '\0';
 		if (strcmp(line, limiter) == 0)
 			break ;
+		line[nread - 1] = '\n';
 		write(pipe_fd[1], line, nread);
 	}
 	free(line);
@@ -90,6 +91,8 @@ void	pipex(int argc, char **argv, char **envp)
 		if (argc < 6)
 			exit_with_error("Usage: here_doc LIMITER cmd1 cmd2 outfile", 1);
 		infile = handle_here_doc(argv[2]);
+		dup2(infile, STDIN_FILENO);
+		close(infile);
 		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (outfile < 0)
 			exit_with_error("Error opening output file", 1);
